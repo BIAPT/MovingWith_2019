@@ -9,12 +9,13 @@
 % ------------------
 
 % Save directory
-OUT_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P1_TP001689_green/";
+OUT_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/";
+PLT_TITLE = "P3 Nov 7 Session ";
 
 % Load TEMP, EDA, HR
-load('/Volumes/FUD/Moving With 2019/Session_Nov_7/P1_TP001689_green/2019-11-07_10h54m43_EDA_1.mat');
-load('/Volumes/FUD/Moving With 2019/Session_Nov_7/P1_TP001689_green/2019-11-07_10h54m43_TEMP_1.mat');
-load('/Volumes/FUD/Moving With 2019/Session_Nov_7/P1_TP001689_green/2019-11-07_10h54m43_HR_1.mat');
+load('/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/2019-11-07_10h54m45_EDA_1.mat');
+load('/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/2019-11-07_10h54m45_TEMP_1.mat');
+load('/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/2019-11-07_10h54m45_HR_1.mat');
 
 % Calculate time in seconds
 EDA_time = (EDA.EDA_time - EDA.EDA_time(1))/1000;
@@ -68,7 +69,7 @@ hold on
 plot(EDA_time,EDA_eurofilt,'LineWidth',1)
 ylabel("EDA (us)")
 legend("medfilt+movmean", "medfilt+movmean+euro")
-title("P1 Nov 7 Session")
+title(PLT_TITLE)
 
 subplot(3,1,2)
 plot(TEMP_time,TEMP_avefilt,'LineWidth',1)

@@ -2,8 +2,8 @@
 % This script loops through all the exported csv files from a biomusic
 % sesion and saves as a variable (e.g. EDA, TEMP)
 
-IN_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P1_TP001689_green/";
-OUT_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P1_TP001689_green/";
+IN_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/";
+OUT_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/";
 
 % Loop through each csv file
 files = dir(fullfile(IN_DIR,'*.csv'));
