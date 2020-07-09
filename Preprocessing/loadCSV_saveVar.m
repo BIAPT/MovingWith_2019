@@ -1,9 +1,11 @@
 % Dannie Fu June 1 2020
 % This script loops through all the exported csv files from a biomusic
 % sesion and saves as a variable (e.g. EDA, TEMP)
+%
+% ---------------
 
-IN_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/";
-OUT_DIR = "/Volumes/FUD/Moving With 2019/Session_Nov_7/P3_TP001353_blue/";
+IN_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P5_TP001484_green/";
+OUT_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P5_TP001484_green/";
 
 % Loop through each csv file
 files = dir(fullfile(IN_DIR,'*.csv'));
@@ -24,6 +26,11 @@ for k = 1:length(files)
         BVP = readtable(loadfilename);
         savefilename = strcat(OUT_DIR,filename_split(1),'.mat');
         save(savefilename, 'BVP')
+        
+    elseif (contains(loadfilename,"EDAE"))
+        EDAE = readtable(loadfilename);
+        savefilename = strcat(OUT_DIR,filename_split(1),'.mat');
+        save(savefilename, 'EDAE')
 
     elseif (contains(loadfilename,"EDA"))
         EDA = readtable(loadfilename);
@@ -55,6 +62,11 @@ for k = 1:length(files)
         savefilename = strcat(OUT_DIR,filename_split(1),'.mat');
         save(savefilename, 'TEMPR')
 
+    elseif (contains(loadfilename,"TEMPE"))
+        TEMPE = readtable(loadfilename);
+        savefilename = strcat(OUT_DIR,filename_split(1),'.mat');
+        save(savefilename, 'TEMPE')
+        
     elseif (contains(loadfilename,"TEMP"))
         TEMP = readtable(loadfilename);
         savefilename = strcat(OUT_DIR,filename_split(1),'.mat');
