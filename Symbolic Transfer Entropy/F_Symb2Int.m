@@ -1,3 +1,7 @@
+% This function transforms intergers into symbols based on their amplitude 
+% E.g. Input [ 3 1 2] -> 
+
+
 function Integer = F_Symb2Int(E)
 
 [V I] = sort(E');

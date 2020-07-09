@@ -1,4 +1,5 @@
 function prob = F_EstimateProb(Integer)
+
 SZ = size(Integer); % length(emb) by 1
 % CountIndex = zeros(SZ(1),1);
 Count = zeros(SZ(1), 1);
