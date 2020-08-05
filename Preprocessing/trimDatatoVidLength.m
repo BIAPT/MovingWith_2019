@@ -4,10 +4,12 @@
 % ------------------
 %%
 
+clear
+
 % Params to change
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P4_TP001491_orange/part1/";
-SAVE_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P4_TP001491_orange/part1/";
-video_start = importdata("/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/Original Data/start_recording_time.txt");
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/7. Session_Nov_7/P14_TP001491_yellow/";
+SAVE_DIR = LOAD_DIR;
+video_start = importdata("/Volumes/Seagate/Moving With 2019/7. Session_Dec_19/Original Data/start_recording_time.txt");
 
 % Load data
 load(strcat(LOAD_DIR, "EDA_clean"));

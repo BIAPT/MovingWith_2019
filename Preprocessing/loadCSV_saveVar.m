@@ -3,9 +3,10 @@
 % sesion and saves as a variable (e.g. EDA, TEMP)
 %
 % ---------------
+clear 
 
-IN_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P5_TP001484_green/";
-OUT_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P5_TP001484_green/";
+IN_DIR = "/Volumes/Seagate/MTDERA/mtdera003/Baseline Videos/";
+OUT_DIR = "/Volumes/Seagate/MTDERA/mtdera003/Baseline Videos/";
 
 % Loop through each csv file
 files = dir(fullfile(IN_DIR,'*.csv'));
@@ -16,7 +17,7 @@ for k = 1:length(files)
     loadfilename = strcat(IN_DIR,filename);
 
     % Name variable based on the filename. There is probably a better way to do
-    % this...
+    % this...43
     if (contains(loadfilename,"ACC"))
         ACC = readtable(loadfilename);
         savefilename = strcat(OUT_DIR,filename_split(1),'.mat');

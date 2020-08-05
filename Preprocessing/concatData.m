@@ -6,10 +6,10 @@
 
 %% 
 
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P4_TP001491_orange/";
-SAVE_DIR = "/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P4_TP001491_orange/";
-video_start = importdata("/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/Original Data/start_recording_time.txt");
-video_length = 34.40*60*1000; % length to millisecond
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/6. Session_Dec_12/P14_TP001822_orange/";
+SAVE_DIR = "/Volumes/Seagate/Moving With 2019/6. Session_Dec_12/P14_TP001822_orange/";
+video_start = importdata("/Volumes/Seagate/Moving With 2019/6. Session_Dec_12/Original Data/start_recording_time.txt");
+video_length = 44.24*60*1000; % length to millisecond
 
 % Load data
 load(strcat(LOAD_DIR, "/part1/EDA_clean_cut"));
@@ -40,6 +40,10 @@ clear('HRV_ZY_clean');
 
 % Concat segments
 [TEMP_full, EDA_full, HRVZY_full] = concatSegs(EDA_part1,EDA_part2,TEMP_part1,TEMP_part2,HRVZY_part1,HRVZY_part2);
+
+TEMP_full(isnan(TEMP_full))=0;
+EDA_full(isnan(EDA_full))=0;
+HRVZY_full(isnan(HRVZY_full))=0;
 
 % Save data
 save(strcat(SAVE_DIR,"TEMP_full.mat"), "TEMP_full");
