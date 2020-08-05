@@ -1,26 +1,41 @@
 % Dannie Fu June 29 2020
-% This script compute STE and NSTE values over a sliding window.
+% This script computes STE and NSTE values over a sliding window.
 %
 % Variables computed are STE[Y->X, X->Y], NSTE[Y->X, X->Y] 
 % ------------------
 
-%% Load Data 
+clear 
 
-load("/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P4_TP001491_orange/EDA_clean_cut")
-load("/Volumes/Seagate/Moving With 2019/5. Session_Dec_5/P10_TP001354_green/EDA_clean_cut")
+% Save params
+OUT_DIR = '/Users/biomusic/Documents/MovingWith_2019_Analysis/7. Dec19/';
+SAVE_NAME = 'P6P8_EDA_NSTE.mat';
 
-%% Make data same length - just cut the longer one to the size of the shorter one 
-x = P4_EDA_cut(1:11720,2); 
-y = P10_EDA_cut(1:11720,2); 
-time = (P10_EDA_cut(1:11720,1) - P10_EDA_cut(1,1))/1000; % Convert time to seconds 
+% Load Data 
+signal1 = load("/Volumes/Seagate/Moving With 2019/7. Session_Dec_19/P6_TP001689_yellow/EDA_clean_cut");
+signal2 = load("/Volumes/Seagate/Moving With 2019/7. Session_Dec_19/P8_TP001822_yellow/EDA_clean_cut");
+
+% Make data same length - just cut the longer one to the size of the shorter one 
+length1 = length(signal1.EDA_clean_cut);
+length2 = length(signal2.EDA_clean_cut);
+
+A = 1;
+if length1 > length2   
+    B = length2;
+else
+    B = length1;
+end
+
+x = signal1.EDA_clean_cut(A:B,2); 
+y = signal2.EDA_clean_cut(A:B,2); 
+time = (signal1.EDA_clean_cut(A:B,1) - signal1.EDA_clean_cut(1,1))/1000; % Convert time to seconds 
 
 %% 
 
 % STE Input Parameters 
 fs = 15;        % Sampling frequency
-win_size_sec = 10;  % Window size in seconds 
+win_size_sec = 30;  % Window size in seconds 
 win_step_sec = 1;   % Window step size in seconds. For nonoverlapping window, set win_size_sec = win_size_sec
-dim = 3;        % Embedding dimension
+dim = 4;        % Embedding dimension
 tau = 1:2:30;   % STE lag
  
 win_size = win_size_sec*fs; % Window size in samples 
@@ -59,6 +74,7 @@ end
 plt_time = time(1:win_step:end);
 plot(plt_time(1:length(NSTE))/60, NSTE);
 title('NSTE');
+ylim([0, 1])
 ylabel('NSTE');
 xlabel('Time (minutes)');
 legend('NSTE Y->X','NSTE X->Y');
@@ -70,6 +86,8 @@ title('STE');
 ylabel('STE');
 xlabel('Time (minutes)');
 legend('STE Y->X','STE X->Y');
+
+save(strcat(OUT_DIR,SAVE_NAME),"NSTE","plt_time");
       
 %% 
 function [STE1,NSTE1,STE2,NSTE2]= calculate_STE(X,Y,dim,tau)
