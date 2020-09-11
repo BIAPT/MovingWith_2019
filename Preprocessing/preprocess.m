@@ -41,6 +41,7 @@ TEMP_clean = horzcat(TEMP_time,TEMP_expfilt);
 HR_clean = horzcat(HR_time,HR_cubic);
 HRV_ZY_clean = horzcat(HRV_time,HRV_ZY_cubic);
 
+%% TODO: fix save name 
 save(strcat(OUT_DIR,"EDA_clean.mat"),"EDA_clean")
 save(strcat(OUT_DIR,"TEMP_clean.mat"),"TEMP_clean")
 save(strcat(OUT_DIR,"HR_clean.mat"),"HR_clean")
