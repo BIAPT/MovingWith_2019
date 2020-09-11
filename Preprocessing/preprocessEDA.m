@@ -19,7 +19,7 @@ EDA_medfilt = medfilt1(EDA_data,75,'truncate');
 EDA_avefilt = movmean(EDA_medfilt,15); %Window size 15, arbitrarily chosen 
 
 % Find outliers (3 Median Absolute Deviations away from median)
-TF = isoutlier(EDA_avefilt, 'median');
+TF = isoutlier(EDA_avefilt, 'mean');
 outliers = find(TF); % Index of outliers 
 
 % Calculate instantaneous slope 
@@ -47,7 +47,7 @@ end
 
 % If EDA is NaN longer than 30 seconds (450 samples), replace with 0s, otherwise,
 % interpolate with cubic spline
-EDA_avefilt = interp1gap(EDA_avefilt,450,'spline','interpval',0);
+EDA_avefilt = interp1gap(EDA_avefilt,450,'spline','interpval',0,'extrap',0);
 
 % Apply 1 euro filter 
 a = oneEuro; % Declare oneEuro object
