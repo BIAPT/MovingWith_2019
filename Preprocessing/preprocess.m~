@@ -6,8 +6,10 @@
 
 clear;
 
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/1. Session_Oct_31/P2_TP001491_orange/part2/";
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/Test/";
 OUT_DIR = LOAD_DIR;
+P_ID = "P1";
+
 PLT_TITLE = "";
 
 % Load all the mat files (but will only preprocess temp, eda, hr, hrv)
@@ -36,13 +38,21 @@ preprocessHR;
 
 %% Save cleaned data
 
-% Saving original Java time so that later I can cut out the time before video started
 clean.EDA = horzcat(EDA_time,EDA_eurofilt);
-clean.TEMP = horzcat(TEMP_time,TEMP_expfilt);
-clean.HR = horzcat(HR_time,HR_cubic);
-clean.HRVZY = horzcat(HRV_time,HRV_ZY_cubic);
 
-save(strcat(OUT_DIR,'clean.mat'),'-struct','clean');
+save('newstruct.mat','-struct','clean');
+
+EDA_clean = horzcat(EDA_time,EDA_eurofilt); % Saving original Java time so that later I can cut out the time before video started
+TEMP_clean = horzcat(TEMP_time,TEMP_expfilt);
+HR_clean = horzcat(HR_time,HR_cubic);
+HRV_ZY_clean = horzcat(HRV_time,HRV_ZY_cubic);
+
+
+%% TODO: fix save name 
+save(strcat(OUT_DIR,P_ID,"_EDA_clean.mat"),"EDA_clean")
+save(strcat(OUT_DIR,P_ID,"_TEMP_clean.mat"),"TEMP_clean")
+save(strcat(OUT_DIR,P_ID,"_HR_clean.mat"),"HR_clean")
+save(strcat(OUT_DIR,P_ID,"_HRV_ZY_clean.mat"),"HRV_ZY_clean")
 
 %% Plot  
 subplot(4,1,1)

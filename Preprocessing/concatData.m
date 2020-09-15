@@ -6,49 +6,25 @@
 
 %% 
 
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/6. Session_Dec_12/P14_TP001822_orange/";
-SAVE_DIR = "/Volumes/Seagate/Moving With 2019/6. Session_Dec_12/P14_TP001822_orange/";
-video_start = importdata("/Volumes/Seagate/Moving With 2019/6. Session_Dec_12/Original Data/start_recording_time.txt");
-video_length = 44.24*60*1000; % length to millisecond
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/1. Session_Oct_31/P2_TP001491_orange/";
+OUT_DIR = LOAD_DIR;
+video_start = importdata("/Volumes/Seagate/Moving With 2019/1. Session_Oct_31/Original Data/start_recording_time.txt");
+video_length = 16.26*60*1000; % length to millisecond. Can use mmfileinfo if download the right codec
+
 
 % Load data
-load(strcat(LOAD_DIR, "/part1/EDA_clean_cut"));
-load(strcat(LOAD_DIR, "/part1/TEMP_clean_cut"));
-load(strcat(LOAD_DIR, "/part1/HR_clean_cut"));
-load(strcat(LOAD_DIR, "/part1/HRVZY_clean_cut"));
-EDA_part1 = EDA_clean_cut;
-TEMP_part1 = TEMP_clean_cut;
-HR_part1 = HR_clean_cut;
-HRVZY_part1 = HRVZY_clean_cut; 
-clear('EDA_clean_cut');
-clear('HR_clean_cut');
-clear('TEMP_clean_cut');
-clear('HRVZY_clean_cut');
-
-load(strcat(LOAD_DIR, "/part2/EDA_clean"));
-load(strcat(LOAD_DIR, "/part2/TEMP_clean"));
-load(strcat(LOAD_DIR, "/part2/HR_clean"));
-load(strcat(LOAD_DIR, "/part2/HRV_ZY_clean"));
-EDA_part2 = EDA_clean;
-TEMP_part2 = TEMP_clean;
-HR_part2 = HR_clean;
-HRVZY_part2 = HRV_ZY_clean; 
-clear('EDA_clean');
-clear('HR_clean');
-clear('TEMP_clean');
-clear('HRV_ZY_clean');
+part1 = load(strcat(LOAD_DIR, "/part1/clean"));
+part2 = load(strcat(LOAD_DIR, "/part2/clean_trimmed"));
 
 % Concat segments
-[TEMP_full, EDA_full, HRVZY_full] = concatSegs(EDA_part1,EDA_part2,TEMP_part1,TEMP_part2,HRVZY_part1,HRVZY_part2);
+[clean.TEMP, clean.EDA, clean.HRVZY] = concatSegs(part1.EDA,part2.EDA,part1.TEMP,part2.TEMP,part1.HRVZY,part2.HRVZY);
 
-TEMP_full(isnan(TEMP_full))=0;
-EDA_full(isnan(EDA_full))=0;
-HRVZY_full(isnan(HRVZY_full))=0;
+clean.TEMP(isnan(clean.TEMP))=0;
+clean.EDA(isnan(clean.EDA))=0;
+clean.HRVZY(isnan(clean.HRVZY))=0;
 
 % Save data
-save(strcat(SAVE_DIR,"TEMP_full.mat"), "TEMP_full");
-save(strcat(SAVE_DIR,"EDA_full.mat"),"EDA_full");
-save(strcat(SAVE_DIR,"HRVZY_full.mat"),"HRVZY_full");
+save(strcat(OUT_DIR,'clean.mat'),'-struct','clean');
 
 %% 
 

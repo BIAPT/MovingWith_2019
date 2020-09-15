@@ -7,24 +7,18 @@
 clear
 
 % Params to change
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/7. Session_Nov_7/P14_TP001491_yellow/";
-SAVE_DIR = LOAD_DIR;
-video_start = importdata("/Volumes/Seagate/Moving With 2019/7. Session_Dec_19/Original Data/start_recording_time.txt");
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/1. Session_Oct_31/P2_TP001491_orange/part2/";
+OUT_DIR = LOAD_DIR;
+video_start = importdata("/Volumes/Seagate/Moving With 2019/1. Session_Oct_31/Original Data/start_recording_time.txt");
 
 % Load data
-load(strcat(LOAD_DIR, "EDA_clean"));
-load(strcat(LOAD_DIR, "TEMP_clean"));
-load(strcat(LOAD_DIR, "HR_clean"));
-load(strcat(LOAD_DIR, "HRV_ZY_clean"));
+load(strcat(LOAD_DIR, "clean"));
 
 % Trim data
-[TEMP_clean_cut, HR_clean_cut, EDA_clean_cut, HRVZY_clean_cut] = trimData(TEMP_clean,HR_clean,EDA_clean,HRV_ZY_clean,video_start);
+[clean_trimmed.TEMP, clean_trimmed.HR, clean_trimmed.EDA, clean_trimmed.HRVZY] = trimData(TEMP,HR,EDA,HRVZY,video_start);
 
 % Save data
-save(strcat(SAVE_DIR,"TEMP_clean_cut.mat"),"TEMP_clean_cut");
-save(strcat(SAVE_DIR,"EDA_clean_cut.mat"),"EDA_clean_cut");
-save(strcat(SAVE_DIR,"HR_clean_cut.mat"),"HR_clean_cut");
-save(strcat(SAVE_DIR,"HRVZY_clean_cut.mat"),"HRVZY_clean_cut");
+save(strcat(OUT_DIR,'clean_trimmed.mat'),'-struct','clean_trimmed');
 
 %% Function to trim the data 
 
