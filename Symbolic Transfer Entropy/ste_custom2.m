@@ -11,12 +11,12 @@ OUT_DIR = '/Users/biomusic/Documents/MovingWith_2019_Analysis/7. Dec19/';
 SAVE_NAME = 'P6P8_EDA_NSTE.mat';
 
 % Load Data 
-signal1 = load("/Volumes/Seagate/Moving With 2019/7. Session_Dec_19/P6_TP001689_yellow/EDA_clean_cut");
-signal2 = load("/Volumes/Seagate/Moving With 2019/7. Session_Dec_19/P8_TP001822_yellow/EDA_clean_cut");
+signal1 = load("/Volumes/Seagate/Moving With 2019/1. Session_Oct_31/P1_TP001689_green/clean");
+signal2 = load("/Volumes/Seagate/Moving With 2019/1. Session_Oct_31/P2_TP001491_orange/clean");
 
 % Make data same length - just cut the longer one to the size of the shorter one 
-length1 = length(signal1.EDA_clean_cut);
-length2 = length(signal2.EDA_clean_cut);
+length1 = length(signal1.EDA);
+length2 = length(signal2.EDA);
 
 A = 1;
 if length1 > length2   
@@ -25,9 +25,9 @@ else
     B = length1;
 end
 
-x = signal1.EDA_clean_cut(A:B,2); 
-y = signal2.EDA_clean_cut(A:B,2); 
-time = (signal1.EDA_clean_cut(A:B,1) - signal1.EDA_clean_cut(1,1))/1000; % Convert time to seconds 
+x = signal1.EDA(A:B,2); 
+y = signal2.EDA(A:B,2); 
+time = (signal1.EDA(A:B,1) - signal1.EDA(1,1))/1000; % Convert time to seconds 
 
 %% 
 
