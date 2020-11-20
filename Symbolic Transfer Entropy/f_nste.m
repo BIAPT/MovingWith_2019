@@ -1,10 +1,11 @@
-function [T, T_s] = f_nste(data, dim, lag, delta)
-% only applied for bivrate data
+function [STE, NSTE] = f_nste(data, dim, lag, delta)
+% only applied for bivariate data
 % (c1,c2): c2 -> c0
 % That is, Column to Row
 ch=size(data,2); % For 2 signals, ch=2
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%% Part1. STE of original data %%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% Part 1. STE of original data %%%%%%%%%%%%%%%%%%
 
 Ddata=delayRecons(data, lag, dim); % embedding 
 for c=1:ch
@@ -23,17 +24,22 @@ Int_past=INT(1:end-delta,:);
 % Integer2: Target Present: X(n)
 % Integer3: Source Present: Y(n)
 [P1, P2, P3, P4] = f_Integer2prob(Int_future(:,1), Int_past(:,1), Int_past(:,2)); %(XF, XP, YP)
-T(1) = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) ); % P1 = P(XF,XP,YP) => target is X, source is Y => STE_YX
+STE(1) = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) ); % P1 = P(XF,XP,YP) => target is X, source is Y => STE_YX
 [P1, P2, P3, P4] = f_Integer2prob(Int_future(:,2), Int_past(:,2), Int_past(:,1)); %(YF, YP, XP)
-T(2) = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) ); % P1 = P(YF,YP,YP) => target is Y, source is X => STE_XY
+STE(2) = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) ); % P1 = P(YF,YP,YP) => target is Y, source is X => STE_XY
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%% Part2. STE of shuffled data %%%%%%%%%%%%%%%%%%
-% second data is shuffled
-data2=data(:,2); % target data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%  Part 2. STE of shuffled data  %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%  Computing STE_YX and NSTE_YX %%%%%%%%%%%%%%%%%
+
+% first data X = target 
+% second data Y = source 
+
+% second data is shuffled because it is source 
+data2=data(:,2); 
 len=length(data2);
 halflen=floor(len/2);
-shuffled_data2 = [data2(halflen+1:end,1); data2(1:halflen)]; % shuffle Y
+shuffled_data2 = [data2(halflen+1:end); data2(1:halflen)]; % shuffle Y
 
 Ddata=delayRecons([data(:,1) shuffled_data2], lag, dim);
 clear INT;
@@ -44,28 +50,29 @@ Int_future=INT(1+delta:end,:);
 Int_past=INT(1:end-delta,:);
 
 [P1, P2, P3, P4] = f_Integer2prob(Int_future(:,1), Int_past(:,1), Int_past(:,2));
-sft_T = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) );
-%H_XY =  sum ( P1.*(log2(P2) - log2(P1.*P2))); *** SEE BOTTOM OF CODE
-%H_XY = -sum ( P3./P4.*(log2(P3) - log2(P4)));
-%H_XY = -sum ( P1.*(log2(P3) - log2(P4))); % Fix from pullrequest - not
-%sure if works 
-
+STE_shuffled = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) );
 H_XY = -sum ( P3 .* (log2(P3) - log2(P4)));
 
-T_s_num = T(1) - sft_T;
+NSTE_numerator = STE(1) - STE_shuffled; %STE(1) is STE_YX
 
-if T_s_num < 0
-    T_s(1) = 0; % set NSTE to 0 if shuffled STE is greater than normal STE 
+if NSTE_numerator < 0
+    NSTE(1) = 0; % set NSTE to 0 if shuffled STE is greater than normal STE 
 else
-    T_s(1) = (T(1) - sft_T)/H_XY;  %T(1) is STE_YX
+    NSTE(1) = NSTE_numerator/H_XY;  
 end 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%% Part3. STE of shuffled data %%%%%%%%%%%%%%%%%%
-% first data is shuffled
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%  Part 3. STE of shuffled data  %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%  Computing STE_XY and NSTE_XY %%%%%%%%%%%%%%%%%
+
+% first data X = source 
+% second data Y = target 
+
+% first data is shuffled because it is source 
 data1=data(:,1); % source data
-len=length(data2);halflen=floor(len/2);
-shuffled_data1 = [data1(halflen+1:end,1); data1(1:halflen)];
+len=length(data1);
+halflen=floor(len/2);
+shuffled_data1 = [data1(halflen+1:end); data1(1:halflen)];
 
 Ddata=delayRecons([shuffled_data1 data(:,2)], lag, dim);
 clear INT;
@@ -76,26 +83,16 @@ Int_future=INT(1+delta:end,:);
 Int_past=INT(1:end-delta,:);
 
 [P1, P2, P3, P4] = f_Integer2prob(Int_future(:,2), Int_past(:,2), Int_past(:,1));
-sft_T = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) );
-%H_XY =  sum ( P1.*(log2(P2) - log2(P1.*P2))); *** SEE BOTTOM OF CODE
-%H_XY = -sum ( P3./P4.*(log2(P3) - log2(P4)));
-%H_XY = -sum ( P1.*(log2(P3) - log2(P4)));
-
+STE_shuffled = sum( P1 .* (log2( P1.*P4 ) - log2(P2.*P3)) );
 H_XY = -sum ( P3 .* (log2(P3) - log2(P4)));
 
-T_s_num = T(2) - sft_T;
+STE_numerator = STE(2) - STE_shuffled;
 
-if T_s_num < 0
-    T_s(2) = 0; % set NSTE to 0 if shuffled STE is greater than normal STE 
+if STE_numerator < 0
+    NSTE(2) = 0; % set NSTE to 0 if shuffled STE is greater than normal STE 
 else
-    T_s(2) = (T(2) - sft_T)/H_XY; %T(2) is STE_XY => T_s(2) is NSTE_XY
+    NSTE(2) = STE_numerator/H_XY; % STE(2) is STE_XY => NSTE(2) is NSTE_XY
 end 
-%*** NSTE didn't give the right output with this line of code
-% we redid the derivation and we found out that this line should be
-% replaced by the one below (as suggested by Dr. Chang)
-%display('new version running!');
-
-
 
 
 
