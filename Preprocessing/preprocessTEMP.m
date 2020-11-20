@@ -7,19 +7,24 @@
 %
 % ---------------------
 
+function [TEMP_medfilt, TEMP_avefilt, TEMP_interp, TEMP_expfilt] = preprocessTEMP(TEMP_data)
+
 % Median filter
 TEMP_medfilt = medfilt1(TEMP_data,1,'truncate');
 
 % Moving average 
 TEMP_avefilt = movmean(TEMP_medfilt,15);
 
-% If TEMP is NaN longer than 30 seconds (450 samples), replace with 0s,
-% otherwise interpolate with nearest neighbour 
-TEMP_avefilt2 = interp1gap(TEMP_avefilt,450,'previous','interpval',0);
+% If TEMP is NaN shorter than 30 seconds (450 samples), interpolate with cubic spline  
+TEMP_interp = interp1gap(TEMP_avefilt,450,'pchip');
+
+% If TEMP is NaN longer than 30 seconds, fill with previous nonNan value 
+TEMP_interp = fillmissing(TEMP_interp,'previous');
 
 % Exponential decay filter
-TEMP_expfilt = exp_decay(TEMP_avefilt2',0.95);
+TEMP_expfilt = exp_decay(TEMP_interp',0.95);
 
+end 
 
 %%
 % plot((TEMP_time-TEMP_time(1))/1000,TEMP_data,'LineWidth',1)
