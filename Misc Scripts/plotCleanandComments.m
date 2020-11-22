@@ -33,14 +33,15 @@ xlabel("Time (seconds)")
 
 %% Load and display comments as vertical lines 
 
-comments = readtable('/Volumes/Seagate/Codesign/cdnc005/2020-10-30/10h17m41/2020-10-30_10h17m41_comments.csv');
+comments = readtable('/Volumes/Seagate/Codesign/cdnc005/2020-11-18/2020-11-18_19h17m20_comments.csv');
 
+colorInd = 'rbkgmy';
 for i=1:height(comments)
     startTime = (comments.startTime(i)-EDA_time(1))/1000;
-    xline(ax1,startTime,'-',comments.description(i),'LineWidth',2);
+    xline(ax1,startTime,['-' colorInd(i)],{char(comments.description(i)),char(comments.category(i))},'LineWidth',2);
     
     endTime = (comments.endTime(i)-EDA_time(1))/1000;
-    xline(ax1,endTime,'Color','r','LineWidth',2);
+    xline(ax1,endTime,['-' colorInd(i)],'LineWidth',2);
 end 
 
 
