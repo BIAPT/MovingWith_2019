@@ -7,10 +7,10 @@
 
 %clear;
 
-%% This section is for running on one folder - comment out if running on many folders 
+%% This section is for running on one folder - comment out if running on many folders from another script
 
 % Input params 
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/6. Session_Dec_12/P3_TP001353_blue/";
+LOAD_DIR = "/Volumes/Seagate/Codesign/cdnc005/2020-11-18/";
 OUT_DIR = LOAD_DIR;
 
 %Load all the mat files (but will only preprocess temp, eda, hr, hrv)
@@ -22,15 +22,15 @@ end
 
 %%
 % Sometimes the headers in the tables are capitalized so can change the names here instead of all over the script
-EDA_time = EDA.EDA_time;
-TEMP_time = TEMP.TEMP_time;
-HR_time = HR.HR_time;
-HRV_time = HRV.HRV_time;
+EDA_time = EDA.eda_time;
+TEMP_time = TEMP.temp_time;
+HR_time = HR.hr_time;
+HRV_time = HRV.hrv_time;
 
-EDA_data = EDA.EDA_data;
-TEMP_data = TEMP.TEMP_data;
-HR_data = HR.HR_data;
-HRV_ZY = HRV.HRV_z ./ HRV.HRV_y;
+EDA_data = EDA.eda_data;
+TEMP_data = TEMP.temp_data;
+HR_data = HR.hr_data;
+HRV_ZY = HRV.hrv_z ./ HRV.hrv_y;
 
 % Cut beginning if data starts with 0s 
 % Find index where EDA is larger than 0.05 (smaller is invalid data). Finds the first 10 indices because sometimes
