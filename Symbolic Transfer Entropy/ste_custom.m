@@ -4,7 +4,7 @@
 % Variables computed are STE[Y->X, X->Y], NSTE[Y->X, X->Y] 
 % ------------------
 
-clear 
+clear;
 
 % Save params
 OUT_DIR = '/Volumes/Seagate/Moving With 2019/analysis/NSTE/';
@@ -67,19 +67,17 @@ for m=1:total_win
     NSTE(m,2)=NSTE2(m);                    
 end
 
-% Asymmetry
-%asym = (NSTE1 - NSTE2) ./(NSTE1 + NSTE2);
+
+%%  PLOT 
 
 % Plot NSTE X-Y and Y-X
 plt_time = time(1:win_step:end);
 plot(plt_time(1:length(NSTE))/60, NSTE);
 title('NSTE');
-ylim([0, 1])
 ylabel('NSTE');
 xlabel('Time (minutes)');
 legend('NSTE Y->X','NSTE X->Y');
 %saveas(gcf,strcat(OUT_DIR,SAVE_NAME))
-
 
 % Plot STE X-Y and Y-X
 figure
@@ -89,32 +87,4 @@ ylabel('STE');
 xlabel('Time (minutes)');
 legend('STE Y->X','STE X->Y');
 
-
 %save(strcat(OUT_DIR,SAVE_NAME,'.mat'),"NSTE","plt_time","STE");
-      
-%% 
-function [STE,NSTE,STE1,NSTE1,STE2,NSTE2]= calculate_STE(X,Y,dim,tau)
-
-    STE = NaN(length(tau),2); % size is 15x2 because of tau
-    NSTE = NaN(length(tau),2);
-
-    delta=f_predictiontime(X,Y,50);
-
-     % Looping through tau
-    for L=1:length(tau)
-        % Passing in [X Y], returns: [STE_YX STE_XY], [NSTE_YX NSTE_XY]
-        [STE(L,1:2), NSTE(L,1:2)] = f_nste([X Y], dim, tau(L), delta);
-    end
-    
-    [mxNSTE, ~]=max(NSTE); %mxNSTE and mxNTau
-    [mxSTE, ~]=max(STE); 
-   
-    % Target to Source Y->X
-    STE1 =mxSTE(1);    
-    NSTE1 =mxNSTE(1);
-
-    % Source to Target X->Y
-    STE2=mxSTE(2);    
-    NSTE2=mxNSTE(2);
-end
-
