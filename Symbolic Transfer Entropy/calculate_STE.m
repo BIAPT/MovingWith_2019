@@ -14,8 +14,6 @@ function [STE1,NSTE1,STE2,NSTE2]= calculate_STE(X,Y,dim,tau)
     NSTE = NaN(length(tau),2);
 
     delta=f_predictiontime(X,Y,50);
-    
-    tau = 15;
 
      % Looping through tau
     for L=1:length(tau)

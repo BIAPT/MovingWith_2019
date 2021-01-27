@@ -1,3 +1,4 @@
+function y=delayRecons(data, v, m)
 % This function splits the data up based on the specified embedding dimension and
 % lag. 
 %
@@ -7,24 +8,28 @@
 %       v:  lag - the time delay 
 %       m:  embedding dimension (the number of ranks that will be
 %           used when symbolizing the data) e.g. m = 3 means three data
-%           points will be ranked from 0 to 2 based on their amplitude. 
+%           points will be ranked from 1 to 3 based on their amplitude. 
 %       output: is 3-d matrix
 %
-% Example: 
+% Example: If v = 1, m = 2
+% 
+% Input =  
+%   [ 1     2
+%     4     5
+%     6     1
+%     9    10 ]
 %
-% Input = [ 1    11
-%           2    12
-%           3    13
-%           4    14
-%           5    15 ]
-% Output(:,:,1) = [1     2     3 
-%                  2     3     4
-%                  3     4     5] 
-% Output (:,:,2) = [11    12    13
-%                   12    13    14
-%                   13    14    15]
+% Output: 
+% val(:,:,1) =
+%     1     4
+%     4     6
+%     6     9
 
-function y=delayRecons(data, v, m)
+% val(:,:,2) =
+%     2     5
+%     5     1
+%     1    10
+
 
 MaxEpoch=length(data);
 ch=size(data,2);
