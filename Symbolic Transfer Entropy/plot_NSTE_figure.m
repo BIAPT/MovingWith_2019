@@ -1,6 +1,9 @@
 % Dannie Fu January 27 2020
+%
 % This script generates figures for NSTE and STE YX and XY
 % The variables must be loaded into the workspace before running.
+%
+% ------------------------
 
 % Plot NSTE X-Y and Y-X
 plot(plt_time(1:length(NSTE_YX))/60, NSTE_YX);
