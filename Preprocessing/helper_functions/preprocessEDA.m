@@ -1,15 +1,19 @@
-% Dannie Fu August 4 2020
-%
-% This function preprocesses EDA.
-%
-% Preprocessing Steps :
-%  1D median filter 
-%  Moving average filter 
-%  Cubic Spline Interpolation 
-%  1euro filter 
-% -----------------------
-
 function [EDA_medfilt, EDA_avefilt, EDA_interp, EDA_eurofilt] = preprocessEDA(EDA_data)
+% This function preprocesses EDA:
+%       - 1D median filter 
+%       - Moving average filter 
+%       - Cubic Spline Interpolation 
+%       - 1euro filter 
+%
+% Input: EDA_data - single column of EDA data (no time column)
+% Outputs:  
+%    EDA_medfilt - median filtered 
+%    EDA_avefilt - median + ave filtered
+%    EDA_interp - median + ave + interpolated
+%    EDA_eurofilt - median + ave + interpolated + 1euro filter
+%
+% Dannie Fu August 4 2020
+% -----------------------
 
 % 1D median filter
 EDA_medfilt = medfilt1(EDA_data,75,'truncate'); 
@@ -34,15 +38,4 @@ EDA_interp = EDA_interp';
 EDA_avefilt = EDA_avefilt';
 
 end 
-        
-%% Plot 
-% 
-% plot((EDA_time-EDA_time(1))/1000,EDA_data,'LineWidth',1);
-% hold on;
-% plot((EDA_time-EDA_time(1))/1000,EDA_medfilt,'LineWidth',1);
-% hold on;
-% plot((EDA_time-EDA_time(1))/1000,EDA_avefilt,'LineWidth',1);
-% hold on;
-% plot((EDA_time-EDA_time(1))/1000, EDA_eurofilt,'LineWidth',2);
-% 
-% legend('EDA raw','EDA medfilt','EDA avefilt','EDA eurofilt');
+ 

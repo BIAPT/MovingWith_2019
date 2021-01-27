@@ -1,13 +1,18 @@
-% Dannie Fu August 5 2020
+function [TEMP_medfilt, TEMP_avefilt, TEMP_interp, TEMP_expfilt] = preprocessTEMP(TEMP_data)
 % This script preprocess TEMP data:
-%
 % 1D median filter 
 % Moving average filter 
 % Exponential decay filter 
 %
+% Input: TEMP_data - single column of TEMP data (no time column)
+% Outputs:  
+%    TEMP_medfilt - median filtered 
+%    TEMP_avefilt - median + ave filtered
+%    TEMP_interp - median + ave + interpolated
+%    TEMP_expfilt - median + ave + interpolated + exponential filter
+%
+% Dannie Fu August 5 2020
 % ---------------------
-
-function [TEMP_medfilt, TEMP_avefilt, TEMP_interp, TEMP_expfilt] = preprocessTEMP(TEMP_data)
 
 % Median filter
 TEMP_medfilt = medfilt1(TEMP_data,1,'truncate');

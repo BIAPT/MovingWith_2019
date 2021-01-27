@@ -1,7 +1,13 @@
 function clean = preprocess(EDA,TEMP,HR,HRV)
-% TODO: add description
-% Input - EDA, TEMP, HR  HRV tables
+% This function preprocesses EDA, TEMP, HR, HRV data. Beginning and ends of
+% data are cut if they are 0s. Individual signal specific preprocessing 
+% functions are called that filter and smooth the data. 
+% All signals are plotted showing each step of the preprocessing.
+%
+% Input - EDA, TEMP, HR  HRV tables [time data]
 % Output - EDA, TEMP, HR, HRV cleaned [time data]
+%
+% ----------------------------------
 
 % Sometimes the headers in the tables are capitalized or not captilized
 try
@@ -77,7 +83,7 @@ clean.HRVY = horzcat(HRV_time,HRV_Y_cubic);
 clean.HRVZ = horzcat(HRV_time,HRV_Z_cubic); 
 clean.HRVYZ = horzcat(HRV_time,HRV_YZ_cubic); 
 
-% Plot  
+% Plot
 figure
 subplot(5,1,1)
 plot(unix_to_datetime(EDA_time),EDA_data(1:length(EDA_time)),'LineWidth',1)

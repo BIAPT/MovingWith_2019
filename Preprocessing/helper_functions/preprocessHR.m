@@ -1,16 +1,19 @@
-% Dannie Fu August 5 2020
+function [HR_avefilt, HR_cubic, HRV_YZ_avefilt, HRV_YZ_interp, HRV_YZ_cubic, HRV_X_avefilt, HRV_X_interp, HRV_X_cubic, HRV_Y_avefilt, HRV_Y_interp, HRV_Y_cubic, HRV_Z_avefilt, HRV_Z_interp, HRV_Z_cubic] = preprocessHR(HR_data, HR_time, HRV_YZ, HRV_X, HRV_Y, HRV_Z, HRV_time)
 % This function preprocess HR and HRV data:
-%
 % Moving average filter 
 % Cubic spline filter 
 %
+% Inputs: 
+%   HR_data - single column HR data
+%   HR_time - single column time points for HR data
+%   HRV_YZ - single column HRVZY data
+%   HRV_X - single column HRVX data
+%   HRV_Y - single column HRVY data
+%   HRV_Z - single column HRVZ data
+%   HRV_time - single column time points for HRV data
+% 
+% Dannie Fu August 5 2020
 % ---------------------
-
-function [HR_avefilt, HR_cubic, ...
- HRV_YZ_avefilt, HRV_YZ_interp, HRV_YZ_cubic, ...
- HRV_X_avefilt, HRV_X_interp, HRV_X_cubic, ...
- HRV_Y_avefilt, HRV_Y_interp, HRV_Y_cubic, ...
- HRV_Z_avefilt, HRV_Z_interp, HRV_Z_cubic] = preprocessHR(HR_data, HR_time, HRV_YZ, HRV_X, HRV_Y, HRV_Z, HRV_time)
 
 % Moving average filter 
 HR_avefilt = movmean(HR_data,5);

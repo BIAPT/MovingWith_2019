@@ -1,6 +1,7 @@
 % Dannie Fu June 2 2020
 %
-% This script preprocesses the moving with data
+% This script preprocesses the moving with data (2019).
+% Must specify the load folder of a session.
 %
 % ------------------
 

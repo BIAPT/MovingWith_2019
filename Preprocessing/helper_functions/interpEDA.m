@@ -1,13 +1,17 @@
-% Dannie Fu September 24 2020 
-% This function just interpolates EDA data based on procedure from Kleckner, et al.:
+function [EDA_interp] = interpEDA(EDA_data)
+% This function interpolates EDA data based on procedure from Kleckner et al.:
 % Rules for determining invalid data:
 %   1. EDA is out of valid range (e.g., not within 0.05-60 uS)
 %   2. EDA changes too quickly (e.g., faster than +-10 ?S/sec)
 %   3. EDA data surrounding (e.g., within 4 sec of) invalid portions from rules 1-2 are also invalid
 %
+% This function is called by preprocessEDA.m
+%
+% Input: EDA_data - single column EDA data points
+% Output: EDA_interp - interpolated EDA 
+%
+% Dannie Fu September 24 2020
 % ----------------------
-
-function [EDA_interp] = interpEDA(EDA_data)
 
 % Find outliers (Find outliers 3 std away from mean over a 1 second moving window)
 TF = isoutlier(EDA_data, 'movmean',15);
