@@ -1,10 +1,9 @@
-function [shuffled_wins] = getRandWindows(subj2, size_corr_wins)
+function [shuffled_wins] = getRandWindows(subj2, size_wins)
 % input - signal 2, size of matrix [length of window, number of windows]
 % output - randomly selected windows [length of window, number of windows]  
 
-shuffled_wins = zeros(size_corr_wins);
-%num_wins = size_corr_wins(2);
-length_win = size_corr_wins(1);
+shuffled_wins = zeros(size_wins);
+length_win = size_wins(1);
 
 % vector of indices randomly picked 
 start_idxs = randperm(length(subj2)-length_win);
