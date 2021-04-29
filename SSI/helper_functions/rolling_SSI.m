@@ -3,18 +3,14 @@ function [ssi_final, corrs, Z_1, Z_2] = rolling_SSI(subj1, subj2, fs,corr_win_si
 % paper Marci and Orr 
 %   input - signal 1, signal 2, sampling frequency 
 %   output - ssi, pearson correlations
-
-
-% Time
-time = subj1(:,1);
-time_idx = 1:fs:length(time);
+% -----------------
 
 % Z Score Standardization
 zscor_xnan = @(x) bsxfun(@rdivide, bsxfun(@minus, x, mean(x,'omitnan')), std(x, 'omitnan'));
 Z_1 = zscor_xnan(subj1(:,2));
 Z_2 = zscor_xnan(subj2(:,2));
 
-% Average slope over 5s sliding window with 1s step size -> results in data that has 1HZ fs
+% Average instantaneous slope over 5s sliding window with 1s step size -> results in data that has 1HZ fs
 win_size =  fs*5; % Window size in samples 
 win_step = fs*1;  % Increment size in samples
 win_overlap = win_size - win_step; % Overlap 
@@ -22,8 +18,8 @@ win_overlap = win_size - win_step; % Overlap
 S_1 = buffer(Z_1,win_size,win_overlap,'nodelay');
 S_2 = buffer(Z_2,win_size,win_overlap,'nodelay');
 
-slopes_1 = diff(S_1);
-slopes_2 = diff(S_2);
+slopes_1 = diff(S_1).*fs; % Slope = dy/dx, where dx is 1/fs = 1/15. 
+slopes_2 = diff(S_2).*fs;
 
 ave_slopes_1 = mean(slopes_1);
 ave_slopes_2 = mean(slopes_2);
@@ -41,10 +37,10 @@ corr_wins_1 = buffer(ave_slopes_1,corr_win_size,corr_win_overlap,'nodelay');
 corr_wins_2 = buffer(ave_slopes_2,corr_win_size,corr_win_overlap,'nodelay');
 
 % Pre-allocate the correlation matrix 
-R = zeros(1,length(corr_wins_1));
+R = zeros(1,size(corr_wins_1,2));
 
 % Compute actual correlation between signal 1 and signal 2 
-for i=1:length(corr_wins_1)
+for i=1:size(corr_wins_1,2)
     
     R(i) = xcorr(corr_wins_1(:,i),corr_wins_2(:,i),0,"coeff");
     
@@ -85,13 +81,15 @@ end
 % Natural log of SSI to account for skew
 ssi = log(ssi);
 
+% Time
+time = subj1(:,1);
+time_idx = 1:fs:length(time);
+time_1 = time(time_idx); % 1Hz Time - after taking average slope over sliding windows
 
-R_time = time(time_idx(1:length(R)));
-corrs(:,1) = R_time;
+corrs(:,1) = time_1(1:length(R));
 corrs(:,2) = R;
 
-ssi_time = time(time_idx(1:length(ssi)));
-ssi_final(:,1) = ssi_time;
+ssi_final(:,1) = time_1(1:length(ssi));
 ssi_final(:,2) = ssi;
 
 end 

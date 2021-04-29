@@ -28,8 +28,8 @@ win_overlap = win_size - win_step; % Overlap
 S_1 = buffer(Z_1,win_size,win_overlap,'nodelay');
 S_2 = buffer(Z_2,win_size,win_overlap,'nodelay');
 
-slopes_1 = diff(S_1);
-slopes_2 = diff(S_2);
+slopes_1 = diff(S_1).*fs; % Slope = dy/dx, where dx is 1/fs = 1/15. 
+slopes_2 = diff(S_2).*fs;
 
 ave_slopes_1 = mean(slopes_1);
 ave_slopes_2 = mean(slopes_2);
@@ -48,7 +48,7 @@ R_shuffle = zeros(num_iter,length(corr_wins_1));
 
 % 1000 iterations for computing the shuffled correlations 
 for k=1:num_iter
-    disp(['Iteration ',num2str(k)]);
+    %disp(['Iteration ',num2str(k)]);
     
     % Get random windows from second subject 
     rand_corr_wins_2 = getRandWindows(ave_slopes_2, size(corr_wins_1));

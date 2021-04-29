@@ -5,6 +5,8 @@
 %
 % ------------------------
 
+plt_time = time(1:1*15:end);
+
 % Plot NSTE X-Y and Y-X
 plot(plt_time(1:length(NSTE_YX))/60, NSTE_YX);
 hold on
