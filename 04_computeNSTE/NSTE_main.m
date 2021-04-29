@@ -1,9 +1,14 @@
 % Dannie Fu June 29 2020
 % 
 % This script computes the observed NSTE and the shuffled NSTE.
-% Before running script, make sure to modify the "NSTE Input params" section
-% with the appropriate parameters.
 %
+% Need to specify:
+%   LOAD_DIR, OUT_DIR
+%   participants  - all participants in the Moving With session. Each participant is a folder.
+%   dyads - the dyads you want to run SSI on. Each dyad is a row.
+%   "NSTE Input params" section
+%
+% Note: TODO implement permutation tests
 % ------------------
 
 clear;
@@ -12,8 +17,7 @@ LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/";
 OUT_DIR = "/Volumes/Seagate/Moving With 2019/analysis/Dec5_analysis/NSTE/noconnection/";
 
 participants = {'P1','P2','P3','P4','P5','P6','P7','P8','P10','P11','P14'};
-%dyads = {'P1','P7';'P3', 'P6'; 'P3', 'P11'; 'P4','P10'; 'P5','P10'; 'P8','P14'}; % each dyad is a row
-dyads = {'P4','P6'};
+dyads = {'P1','P7';'P3', 'P6'; 'P3', 'P11'; 'P4','P10'; 'P5','P10'; 'P8','P14'}; % each dyad is a row
 
 % NSTE input parameters 
 fs = 15;        % Sampling frequency
