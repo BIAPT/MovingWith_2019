@@ -15,7 +15,6 @@ title('NSTE');
 ylabel('NSTE');
 xlabel('Time (minutes)');
 legend('NSTE Y->X','NSTE X->Y');
-%saveas(gcf,strcat(OUT_DIR,SAVE_NAME))
 
 % Plot STE X-Y and Y-X
 figure
