@@ -3,6 +3,11 @@
 % This script calls rolling_SSI function (observed ssi) and
 % monteCarloShuffling_SSI (shuffled ssi) function and determines whether
 % the observed is statistically significant.
+%
+% Need to specify:
+%   LOAD_DIR, OUT_DIR
+%   participants  - all participants in the Moving With session. Each participant is a folder.
+%   dyads - the dyads you want to run SSI on. Each dyad is a row.
 % ------------------
 
 clear;
@@ -11,8 +16,7 @@ LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/";
 OUT_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/abstract_fixed_SSI_slopes/noconnection/";
 
 participants = {'P1','P2','P3','P4','P5','P6','P7','P8','P10','P11','P14'};
-%dyads = {'P1','P7'; 'P3', 'P6'; 'P3', 'P11'; 'P4','P10'; 'P5','P7';'P5','P11';'P8','P14'}; % each dyad is a row
-dyads = {'P3','P8'; 'P4', 'P6'; 'P4', 'P8'; 'P5','P6'; 'P5','P10';'P6','P14';'P11','P14'};
+dyads = {'P3','P8'; 'P4', 'P6'; 'P4', 'P8'; 'P5','P6'; 'P5','P10';'P6','P14';'P11','P14'}; % each dyad is a row
 
 % loop through dyads
 for i=1:size(dyads,1)
