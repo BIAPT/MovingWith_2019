@@ -1,4 +1,3 @@
-
 function Symbol = F_Int2Symb(E)
 
 [sorted,idx] = sort(E');

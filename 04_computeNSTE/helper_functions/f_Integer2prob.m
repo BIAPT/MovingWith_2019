@@ -1,13 +1,11 @@
 function [P1, P2, P3, P4] = f_Integer2prob(Integer1, Integer2, Integer3)
 
-% What is this for? Shouldn't we pass in the symbol length?
 SymbolLen=max(ceil(log10(Integer1+.1)));
 SymbolLen=max(SymbolLen, max(ceil(log10(Integer2+.1))));
 SymbolLen=max(SymbolLen, max(ceil(log10(Integer3+.1))));
 
 INT1 = Integer1.*10.^(SymbolLen*2) + Integer2.*10.^(SymbolLen*1) + Integer3; % {X(n+1),X(n),Y(n)}
 INT2 = Integer2.*10.^(SymbolLen*1) + Integer3; % {X(n),Y(n)}
-% INT3 = Integer1.*10^(SymbolLen*2) + Integer2.*10^(SymbolLen*1); % {X(n+1),X(n)}
 INT3 = Integer1.*10.^(SymbolLen*1) + Integer2; % {X(n+1),X(n), 000}
 INT4 = Integer2; % {X(n)}
 
