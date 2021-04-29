@@ -1,10 +1,10 @@
 % Dannie Fu July 9 2020
 % 
-% This script concats two segments of a signal and fills in the missing
+% This script concats two segments of a EDA, TEMP, HRVYZ, HR signal and fills in the missing
 % chunk with nans. Saves the concat-ed data in the participants' folder as
 % a struct called "clean.mat".
 %
-% LOAD_DIR needs to be specified. OUT_DIR is the same as LOAD_DIR.
+% LOAD_DIR needs to be specified for a single participant. OUT_DIR is the same as LOAD_DIR.
 %
 % Note: Script needs to be modified to handle data if it has more than 2
 % segments.
