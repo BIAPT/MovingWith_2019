@@ -1,7 +1,8 @@
 % Dannie Fu February 24 2020
+%
 % Extract the top 10% of NSTE and SSI values and plot 
-
 % Input: file name for NSTE, file name for SSI 
+% ------------------------
 
 clear;
 
@@ -37,7 +38,6 @@ histogram(NSTE_YX,50)
 CI_nste_yx = CIFcn(NSTE_YX,50); 
 arrayfun(@(x)xline(x,'-m','prctile'),CI_nste_yx);
 top_nste_yx(NSTE_YX > CI_nste_yx(2)) = NSTE_YX(NSTE_YX > CI_nste_yx(2));
-
 
 % Plot 
 figure

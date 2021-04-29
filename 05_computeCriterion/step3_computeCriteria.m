@@ -1,6 +1,6 @@
 % Dannie Fu March 17 2021
 %
-% TODO: clean and optimize code
+% TODO: optimize code
 %
 % SSI
 % 1) Compute average SSI
