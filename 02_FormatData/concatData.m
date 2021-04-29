@@ -4,7 +4,7 @@
 %
 % ------------------
 
-%% 
+%%
 clear
 
 LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/P8_TP001822_orange/";
