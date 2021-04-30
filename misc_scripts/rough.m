@@ -223,24 +223,6 @@ xlabel('Time (minutes)');
 yline(0);
 
 %saveas(gcf,strcat(SAVE_DIR,SAVE_NAME));
-%% Unpad beginning 
-
-clean.EDA = unpadBeginning(EDA,60, 15);
-clean.TEMP = unpadBeginning(TEMP, 60, 15);
-clean.HR = unpadBeginning(HR, 60, 1);
-clean.HRVZY = unpadBeginning(HRVZY,60, 4);
-
-save(strcat('/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/P6_TP001689_orange/','clean.mat'),'-struct','clean');
-
-%% Unpad end 
-
-clean.EDA = unpadEnd(EDA,60, 15);
-clean.TEMP = unpadEnd(TEMP, 60, 15);
-clean.HR = unpadEnd(HR, 60, 1);
-clean.HRVZY = unpadEnd(HRVZY,60, 4);
-
-save(strcat('/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/P6_TP001689_orange/','clean.mat'),'-struct','clean');
-
 %% Plot 
 
 t = (ssi(:,1)-ssi(1,1))/60000;

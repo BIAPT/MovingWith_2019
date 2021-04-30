@@ -39,9 +39,9 @@ catch
 end 
 
 % Cut beginning if data starts with 0s 
-% Find index where EDA is larger than 0.05 (smaller is invalid data). Finds the first 10 indices because sometimes
+% Find index where EDA is larger than 0.05 (smaller is invalid data). Finds the first 500 indices because sometimes
 % theres will be a non zero value for 1 or 2 points and then go back to 0.
-start_idxs = find(EDA_data >= 0.05, 10, 'first'); 
+start_idxs = find(EDA_data >= 0.05, 500, 'first'); 
 diff_idxs = diff(start_idxs);
 i=find(diff(diff_idxs)~=0,1,'last');
 
