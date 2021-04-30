@@ -7,7 +7,7 @@
 % Make sure VIDEO_START is for the session you are loading the data from. 
 % 
 % ** Note: participants with orange phones have a different
-% start_recording_time.txt files than the other participants.
+% start_recording_time.txt files than the other participants - see IDs document for phone colours and corresponding participant ids.
 %
 % ------------------
 
@@ -15,8 +15,8 @@
 clear;
 
 % Params to change
-LOAD_DIR = "/Volumes/Seagate/3. Session_Nov_14/P1_TP001376_blue";
-VIDEO_START = importdata("/Volumes/Seagate/3. Session_Nov_14/Original Data/start_recording_time.txt");
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/4. Session_Nov_21/P13/";
+VIDEO_START = importdata("/Volumes/Seagate/Moving With 2019/data/4. Session_Nov_21/Original Data/start_recording_time.txt");
 
 % Load data
 load(strcat(LOAD_DIR,"/clean.mat"));

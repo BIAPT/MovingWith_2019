@@ -25,6 +25,29 @@ ylabel("HRV Z")
 xlabel("Time (seconds)")
 set(gca,'FontSize',14)
 
+%% 
+
+figure
+subplot(4,1,1)
+plot(unix_to_datetime(EDA(:,1)),EDA(:,2),'LineWidth',1)
+ylabel("EDA (us)")
+set(gca,'FontSize',14)
+
+subplot(4,1,2)
+plot(unix_to_datetime(TEMP(:,1)),TEMP(:,2),'LineWidth',1)
+ylabel("Temperature (C)")
+set(gca,'FontSize',14)
+
+subplot(4,1,3)
+plot(unix_to_datetime(HR(:,1)), HR(:,2),'LineWidth',1)
+ylabel("Heart rate")
+set(gca,'FontSize',14)
+
+subplot(4,1,4) 
+plot(unix_to_datetime(HRVYZ(:,1)), HRVYZ(:,2),'LineWidth',1)
+ylabel("HRV Y/Z")
+set(gca,'FontSize',14)
+
 %% Plot window
 
 figure
