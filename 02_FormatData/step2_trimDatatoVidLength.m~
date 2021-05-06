@@ -15,7 +15,7 @@
 clear;
 
 % Params to change
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/P14/";
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/P6/";
 VIDEO_START = importdata("/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/Original Data/start_recording_time.txt");
 
 % Load data
