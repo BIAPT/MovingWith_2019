@@ -1,6 +1,6 @@
 function [STE, NSTE] = f_nste(data, dim, lag, delta)
 % only applied for bivariate data
-% (c1,c2): c2 -> c0
+% (c1,c2): c2 -> c1
 % That is, Column to Row
 
 ch=size(data,2); % For 2 signals, ch=2

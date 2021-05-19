@@ -7,16 +7,16 @@
 %% Plot signal, z score data, Pearson corrs, ssi vals, and pvals
 
 clear;
-LOAD_DIR_SSI = "/Volumes/Seagate/Moving With 2019/analysis/Dec5_analysis/SSI/noconnection/";
-LOAD_DIR_NSTE = "/Volumes/Seagate/Moving With 2019/analysis/Dec5_analysis/NSTE/noconnection/";
-LOAD_NAME = "Dec5_P4P6";
+LOAD_DIR_SSI = "/Volumes/Seagate/Moving With 2019/dec5_analysis/abstract_fixed_SSI_slopes/noconnection/";
+%LOAD_DIR_NSTE = "/Volumes/Seagate/Moving With 2019/dec5_analysis/abstract_fixed_SSI_slopes/connection/";
+LOAD_NAME = "Dec5_P3P6";
 
 %SAVE_DIR = "/Volumes/Seagate/Moving With 2019/analysis/Dec5_analysis/Figures/";
 %SAVE_NAME = strcat(LOAD_NAME,"_real.fig");
 
 load(strcat(LOAD_DIR_SSI,LOAD_NAME, "_SSI.mat"));
-load(strcat(LOAD_DIR_NSTE,LOAD_NAME, "_NSTE.mat"));
-load(strcat(LOAD_DIR_NSTE,LOAD_NAME, "_NSTE_asym.mat"));
+%load(strcat(LOAD_DIR_NSTE,LOAD_NAME, "_NSTE.mat"));
+%load(strcat(LOAD_DIR_NSTE,LOAD_NAME, "_NSTE_asym.mat"));
 
 tiledlayout(6,1);
 
@@ -156,4 +156,11 @@ xlabel('Time (minutes)');
 yline(0);
 
 %saveas(gcf,strcat(SAVE_DIR,SAVE_NAME));
+%%
+
+plot(unix_to_datetime(ssi_clean(:,1)),ssi_clean(:,2),'LineWidth',1);
+hold('on')
+plot(unix_to_datetime(ssi_clean_trimmed(:,1)),ssi_clean_trimmed(:,2),'LineWidth',1);
+legend('clean', 'clean_trimmed');
+
 
