@@ -55,6 +55,7 @@ for i=1:size(dyads,1)
     [~, idx_end_1] = min(abs(signal_1(:,1)-end_time)); 
     [~, idx_end_2] = min(abs(signal_2(:,1)-end_time)); 
     
+    % Trim data to start and end idxs 
     signal_1 = signal_1(idx_start_1:idx_end_1,:);
     signal_2 = signal_2(idx_start_2:idx_end_2,:);
     
