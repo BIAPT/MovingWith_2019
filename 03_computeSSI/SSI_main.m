@@ -13,10 +13,10 @@
 clear;
 
 LOAD_DIR = "/Volumes/Seagate/Moving With 2019/data/5. Session_Dec_5/";
-OUT_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/abstract_fixed_SSI_slopes/noconnection/";
+OUT_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/abstract_fixed_SSI_slopes/rerun_clean_trimmed/";
 
 participants = {'P1','P2','P3','P4','P5','P6','P7','P8','P10','P11','P14'};
-dyads = {'P3','P8'; 'P4', 'P6'; 'P4', 'P8'; 'P5','P6'; 'P5','P10';'P6','P14';'P11','P14'}; % each dyad is a row
+dyads = {'P1','P7'}; % each dyad is a row
 
 % loop through dyads
 for i=1:size(dyads,1)
@@ -25,8 +25,8 @@ for i=1:size(dyads,1)
     
     savename = strcat('Dec5_',dyads(i,1),dyads(i,2),'_SSI');
     
-    A = load(strcat(LOAD_DIR, char(dyads(i,1)),'/clean.mat'));
-    B = load(strcat(LOAD_DIR, char(dyads(i,2)),'/clean.mat'));
+    A = load(strcat(LOAD_DIR, char(dyads(i,1)),'/clean_trimmed.mat'));
+    B = load(strcat(LOAD_DIR, char(dyads(i,2)),'/clean_trimmed.mat'));
     
     signal_1 = A.EDA;
     signal_2 = B.EDA;
@@ -35,9 +35,6 @@ for i=1:size(dyads,1)
     start_time = max(signal_1(1,1),signal_2(1,1));
     [~, idx_start_1] = min(abs(signal_1(:,1)-start_time)); 
     [~, idx_start_2] = min(abs(signal_2(:,1)-start_time)); 
-
-    signal_1 = signal_1(idx_start_1:end,:);
-    signal_2 = signal_2(idx_start_2:end,:);
 
     % If signal starts with NaN, find next non Nan as start time 
     if(isnan(signal_1(idx_start_1,2)))
@@ -57,10 +54,15 @@ for i=1:size(dyads,1)
     end_time = min(signal_1(end,1), signal_2(end,1));
     [~, idx_end_1] = min(abs(signal_1(:,1)-end_time)); 
     [~, idx_end_2] = min(abs(signal_2(:,1)-end_time)); 
-    end_idx = min(idx_end_1,idx_end_2);
-
-    signal_1 = signal_1(idx_start_1:end_idx,:);
-    signal_2 = signal_2(idx_start_1:end_idx,:);
+    
+    signal_1 = signal_1(idx_start_1:idx_end_1,:);
+    signal_2 = signal_2(idx_start_2:idx_end_2,:);
+    
+    % Since signal_1 or signal_2 might be longer by 1 or 2 samples (milliseconds), take
+    % the length of the shorter one 
+    signal_length = min(length(signal_1), length(signal_2));
+    signal_1 = signal_1(1:signal_length,:);
+    signal_2 = signal_2(1:signal_length,:);
 
     % Params in seconds
     corr_win_size = 15;
