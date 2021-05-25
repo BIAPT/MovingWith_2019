@@ -46,9 +46,6 @@ for i=1:size(dyads,1)
     [~, idx_start_1] = min(abs(signal_1(:,1)-start_time)); 
     [~, idx_start_2] = min(abs(signal_2(:,1)-start_time)); 
 
-    signal_1 = signal_1(idx_start_1:end,:);
-    signal_2 = signal_2(idx_start_2:end,:);
-
     % If signal starts with NaN, find next non Nan as start time 
     if(isnan(signal_1(idx_start_1,2)))
         idx_start_1 = find(~isnan(signal_1(:,2)), 1);
@@ -67,10 +64,16 @@ for i=1:size(dyads,1)
     end_time = min(signal_1(end,1), signal_2(end,1));
     [~, idx_end_1] = min(abs(signal_1(:,1)-end_time)); 
     [~, idx_end_2] = min(abs(signal_2(:,1)-end_time)); 
-    end_idx = min(idx_end_1,idx_end_2);
-
-    signal_1 = signal_1(idx_start_1:end_idx,:);
-    signal_2 = signal_2(idx_start_1:end_idx,:);
+    
+    % Trim data to start and end idxs 
+    signal_1 = signal_1(idx_start_1:idx_end_1,:);
+    signal_2 = signal_2(idx_start_2:idx_end_2,:);
+    
+    % Since signal_1 or signal_2 might be longer by 1 or 2 samples (milliseconds), take
+    % the length of the shorter one 
+    signal_length = min(length(signal_1), length(signal_2));
+    signal_1 = signal_1(1:signal_length,:);
+    signal_2 = signal_2(1:signal_length,:);
 
     x = signal_1(:,2); 
     y = signal_2(:,2); 
