@@ -5,11 +5,11 @@
 
 clear;
 
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/analysis/Dec5_analysis/abstract_participants/01_preprocessed/";
-LOAD_DIR_SSI = strcat(LOAD_DIR, "SSI/noconnection/");
-LOAD_DIR_NSTE = strcat(LOAD_DIR, "NSTE/noconnection/");
-
-SAVE_DIR =  "/Volumes/Seagate/Moving With 2019/analysis/Dec5_analysis/abstract_participants/02_trimmed/";
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/final/0_preprocessed/";
+LOAD_DIR_SSI = strcat(LOAD_DIR, "SSI/connection/");
+LOAD_DIR_NSTE = strcat(LOAD_DIR, "NSTE/asym_15/connection/");
+SAVE_DIR =  "/Volumes/Seagate/Moving With 2019/dec5_analysis/final/1_missingtoNaN/asym_15/";
+asym_win_size = 15;
 
 ssi_files = dir(fullfile(LOAD_DIR_SSI,'*.mat'));
 nste_files = dir(fullfile(LOAD_DIR_NSTE,'*.mat'));
@@ -45,11 +45,11 @@ for i = 1:length(ssi_files)
         
         save(strcat(SAVE_DIR,save_name), "asym_ave","asym_XY","corrs","corrs_shuffle", ...
         "signal_1","signal_2","NSTE_XY","NSTE_YX","pval","Z_1","Z_2",...
-        "STE_XY", "STE_YX", "ssi");
+        "STE_XY", "STE_YX", "ssi", "nste_time");
     
         clear asym_ave asym_XY corrs corrs_shuffle  ...
         signal_1 signal_2 NSTE_XY NSTE_YX pval Z_1 Z_2 ...
-        STE_XY STE_YX ssi;
+        STE_XY STE_YX ssi nste_time;
     
         continue;   
 
@@ -63,30 +63,32 @@ for i = 1:length(ssi_files)
     end
 
     % Find indices where nan begin and ends. NSTE has same sampling rate as
-    % SSI. Asym 
+    % SSI. 
     [~, idx_Start] = min(abs(ssi(:,1) - nan_start));
     [~, idx_End] = min(abs(ssi(:,1) - nan_end));
-    [~, idx_Start_asym] = min(abs(ssi(1:5:end,1) - nan_start));
-    [~, idx_End_asym] = min(abs(ssi(1:5:end,1) - nan_end));
+    [~, idx_Start_nste] = min(abs(nste_time - nan_start));
+    [~, idx_End_nste] = min(abs(nste_time - nan_end));
+    [~, idx_Start_asym] = min(abs(nste_time(1:asym_win_size:end) - nan_start));
+    [~, idx_End_asym] = min(abs(nste_time(1:asym_win_size:end) - nan_end));
 
-    % Set ssi and nste to nan when the original signal is nan (set values 60
-    % second starting 60 seconds before to nan too). Note : NSTE, SSI,
+    % Set ssi and nste to nan when the original signal is nan (set values 60 seconds
+    % before to nan too). Note : NSTE, SSI,
     % asym_XY have fs of 1Hz,  but asym_ave averages NSTE over 5
-    % seconds.
+    % seconds. (1/5 fs)
     ssi(idx_Start-60:idx_End,2) = nan;
     pval(idx_Start-60:idx_End) = nan;
-    NSTE_XY(idx_Start-60:idx_End) = nan;
-    NSTE_YX(idx_Start-60:idx_End) = nan;
-    asym_XY(idx_Start-60:idx_End) = nan;
-    asym_ave(idx_Start_asym-12:idx_End_asym) = nan; % asym takes the ave nste over 5 sec windows so 60 samples NSTE = 12 samples asym = 60 sec
+    NSTE_XY(idx_Start_nste-60:idx_End_nste) = nan;
+    NSTE_YX(idx_Start_nste-60:idx_End_nste) = nan;
+    asym_XY(idx_Start_nste-60:idx_End_nste) = nan;
+    asym_ave(idx_Start_asym-(60/asym_win_size):idx_End_asym) = nan; % asym takes the ave nste over x sec windows so 60 samples NSTE = 60/x samples asym = 60 sec
     
     save(strcat(SAVE_DIR,save_name), "asym_ave","asym_XY","corrs","corrs_shuffle", ...
         "signal_1","signal_2","NSTE_XY","NSTE_YX","pval","Z_1","Z_2",...
-        "STE_XY", "STE_YX", "ssi");
+        "STE_XY", "STE_YX", "ssi", "nste_time");
     
      clear asym_ave asym_XY corrs corrs_shuffle  ...
         signal_1 signal_2 NSTE_XY NSTE_YX pval Z_1 Z_2 ...
-        STE_XY STE_YX ssi;
+        STE_XY STE_YX ssi nste_time;
 end 
 
 
@@ -127,7 +129,7 @@ yline(0,'b-')
 
 % NSTE should be using same time as ssi because there should be 1 sample
 % per second.
-t = unix_to_datetime(ssi(:,1));
+t = unix_to_datetime(nste_time);
 t4 = t(:) - t(1);
 
 NSTE = [NSTE_XY;NSTE_YX];
@@ -142,7 +144,7 @@ ylim([0, max(NSTE)])
 ylabel('NSTE');
 xlabel('Time (minutes)');
 
-t = unix_to_datetime(ssi(1:5:end,1));
+t = unix_to_datetime(nste_time(1:5:end));
 t5 = t(:) - t(1);
 
 ax6 = nexttile;

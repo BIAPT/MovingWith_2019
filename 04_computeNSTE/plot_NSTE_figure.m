@@ -5,23 +5,31 @@
 %
 % ------------------------
 
-plt_time = time(1:1*15:end);
+t = unix_to_datetime(nste_time);
+plt_time = t(:) - t(1);
 
 % Plot NSTE X-Y and Y-X
-plot(plt_time(1:length(NSTE_YX))/60, NSTE_YX);
+plot(plt_time, NSTE_YX);
 hold on
-plot(plt_time(1:length(NSTE_XY))/60, NSTE_XY);
+plot(plt_time, NSTE_XY);
 title('NSTE');
 ylabel('NSTE');
 xlabel('Time (minutes)');
 legend('NSTE Y->X','NSTE X->Y');
 
 % Plot STE X-Y and Y-X
+% figure
+% plot(plt_time, STE_YX);
+% hold on
+% plot(plt_time, STE_XY);
+% title('STE');
+% ylabel('STE');
+% xlabel('Time (minutes)');
+% legend('STE Y->X','STE X->Y');
+
+% Plot asymmetry
 figure
-plot(plt_time(1:length(STE_YX))/60, STE_YX);
-hold on
-plot(plt_time(1:length(STE_XY))/60, STE_XY);
-title('STE');
+plot(plt_time(1:5:end), asym_ave);
+title('Averate Asymetry X-Y (5 sec window)');
 ylabel('STE');
 xlabel('Time (minutes)');
-legend('STE Y->X','STE X->Y');

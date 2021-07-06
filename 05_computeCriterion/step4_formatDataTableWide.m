@@ -5,9 +5,9 @@
 
 clear;
 
-LOAD_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/abstract_participants/04_computedmeasures/min30seconds_0.3asym_3ssi/";
-SAVE_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/abstract_participants/data_tables/";
-SAVE_NAME = 'mw_dec5_wide_min30_0.3_3.csv';
+LOAD_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/final/3_computedmeasures/min30seconds_0.5asym_4ssi/";
+SAVE_DIR = "/Volumes/Seagate/Moving With 2019/dec5_analysis/final/data_tables/";
+SAVE_NAME = 'mw_dec5_wide_min30_0.5_4.csv';
 
 files = dir(fullfile(LOAD_DIR,'*.mat'));
 
